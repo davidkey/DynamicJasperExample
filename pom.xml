@@ -66,27 +66,18 @@
 		</dependency>
 
 
-<!-- http://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
-<dependency>
-    <groupId>net.sf.jasperreports</groupId>
-    <artifactId>jasperreports</artifactId>
-    <version>5.6.1</version>
-</dependency>
-
-<!-- http://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports 
-<dependency>
-    <groupId>net.sf.jasperreports</groupId>
-    <artifactId>jasperreports</artifactId>
-    <version>6.2.2</version>
-</dependency>
--->
+		<!-- http://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
+		<dependency>
+    		<groupId>net.sf.jasperreports</groupId>
+    		<artifactId>jasperreports</artifactId>
+    		<version>5.6.1</version>
+		</dependency>
 
 		<!-- http://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-fonts -->
 		<dependency>
 		    <groupId>net.sf.jasperreports</groupId>
 		    <artifactId>jasperreports-fonts</artifactId>
 		    <version>6.0.0</version>
-		    <scope>runtime</scope>
 		</dependency>
 		
 
@@ -95,7 +86,6 @@
 			<groupId>ar.com.fdvs</groupId>
 			<artifactId>DynamicJasper</artifactId>
 			<version>5.0.7</version>
-			<scope>runtime</scope>
 		</dependency>
 
 
