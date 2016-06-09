@@ -40,11 +40,20 @@ public class ReportController {
 	}
 
 	@RequestMapping(value = "/employeeReport.pdf", method = RequestMethod.GET, produces = "application/pdf")
-	public void getEmployeeReport(final HttpServletResponse response) throws JRException, IOException, ClassNotFoundException {
+	public void getEmployeeReportPdf(final HttpServletResponse response) throws JRException, IOException, ClassNotFoundException {
 		EmployeeReport report = new EmployeeReport(employeeRepository.findAll());
 		JasperPrint jp = report.getReport();
 
 		reportService.writePdfReport(jp, response, "employeeReport");
+		return;
+	}
+	
+	@RequestMapping(value = "/employeeReport.xlsx", method = RequestMethod.GET, produces = "application/pdf")
+	public void getEmployeeReportXlsx(final HttpServletResponse response) throws JRException, IOException, ClassNotFoundException {
+		EmployeeReport report = new EmployeeReport(employeeRepository.findAll());
+		JasperPrint jp = report.getReport();
+
+		reportService.writeXlsxReport(jp, response, "employeeReport");
 		return;
 	}
 
