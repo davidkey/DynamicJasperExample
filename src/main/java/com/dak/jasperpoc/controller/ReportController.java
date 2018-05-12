@@ -31,38 +31,38 @@ public class ReportController {
 		this.employeeRepository = employeeRepository;
 		this.reportService = reportService;
 	}
-	
+
 	@GetMapping
 	public String getHome(){
 		return "redirect:/employeeReport.pdf";
 	}
-	
+
 	@GetMapping(value = "/employeeReport.pdf", produces = MediaType.APPLICATION_PDF_VALUE)
 	@ResponseBody
 	public HttpEntity<byte[]> getEmployeeReportPdf(final HttpServletResponse response) throws JRException, IOException, ClassNotFoundException {
 		final EmployeeReport report = new EmployeeReport(employeeRepository.findAll());
 		final byte[] data = reportService.getReportPdf(report.getReport());
 
-	    HttpHeaders header = new HttpHeaders();
-	    header.setContentType(MediaType.APPLICATION_PDF);
-	    header.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=employeeReport.pdf");
-	    header.setContentLength(data.length);
-		
+		HttpHeaders header = new HttpHeaders();
+		header.setContentType(MediaType.APPLICATION_PDF);
+		header.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=employeeReport.pdf");
+		header.setContentLength(data.length);
+
 		return new HttpEntity<byte[]>(data, header);
 	}
-	
-	
+
+
 	@GetMapping(value = "/employeeReport.xlsx", produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	@ResponseBody
 	public HttpEntity<byte[]> getEmployeeReportXlsx(final HttpServletResponse response) throws JRException, IOException, ClassNotFoundException {
 		final EmployeeReport report = new EmployeeReport(employeeRepository.findAll());
 		final byte[] data = reportService.getReportXlsx(report.getReport());
 
-	    HttpHeaders header = new HttpHeaders();
-	    header.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
-	    header.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=employeeReport.xlsx");
-	    header.setContentLength(data.length);
-		
+		HttpHeaders header = new HttpHeaders();
+		header.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+		header.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=employeeReport.xlsx");
+		header.setContentLength(data.length);
+
 		return new HttpEntity<byte[]>(data, header);
 	}
 }
