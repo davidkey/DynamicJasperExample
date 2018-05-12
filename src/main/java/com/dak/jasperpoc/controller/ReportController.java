@@ -1,25 +1,23 @@
 package com.dak.jasperpoc.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dak.jasperpoc.model.Employee;
 import com.dak.jasperpoc.reports.EmployeeReport;
 import com.dak.jasperpoc.repository.EmployeeRepository;
 import com.dak.jasperpoc.service.ReportService;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperPrint;
 
 @Controller
 @RequestMapping("/")
@@ -34,48 +32,37 @@ public class ReportController {
 		this.reportService = reportService;
 	}
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@GetMapping
 	public String getHome(){
 		return "redirect:/employeeReport.pdf";
 	}
+	
+	@GetMapping(value = "/employeeReport.pdf", produces = MediaType.APPLICATION_PDF_VALUE)
+	@ResponseBody
+	public HttpEntity<byte[]> getEmployeeReportPdf(final HttpServletResponse response) throws JRException, IOException, ClassNotFoundException {
+		final EmployeeReport report = new EmployeeReport(employeeRepository.findAll());
+		final byte[] data = reportService.getReportPdf(report.getReport());
 
-	@RequestMapping(value = "/employeeReport.pdf", method = RequestMethod.GET, produces = "application/pdf")
-	public void getEmployeeReportPdf(final HttpServletResponse response) throws JRException, IOException, ClassNotFoundException {
-		EmployeeReport report = new EmployeeReport(employeeRepository.findAll());
-		JasperPrint jp = report.getReport();
-
-		reportService.writePdfReport(jp, response, "employeeReport");
-		return;
+	    HttpHeaders header = new HttpHeaders();
+	    header.setContentType(MediaType.APPLICATION_PDF);
+	    header.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=employeeReport.pdf");
+	    header.setContentLength(data.length);
+		
+		return new HttpEntity<byte[]>(data, header);
 	}
 	
-	@RequestMapping(value = "/employeeReport.xlsx", method = RequestMethod.GET, produces = "application/pdf")
-	public void getEmployeeReportXlsx(final HttpServletResponse response) throws JRException, IOException, ClassNotFoundException {
-		EmployeeReport report = new EmployeeReport(employeeRepository.findAll());
-		JasperPrint jp = report.getReport();
+	
+	@GetMapping(value = "/employeeReport.xlsx", produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	@ResponseBody
+	public HttpEntity<byte[]> getEmployeeReportXlsx(final HttpServletResponse response) throws JRException, IOException, ClassNotFoundException {
+		final EmployeeReport report = new EmployeeReport(employeeRepository.findAll());
+		final byte[] data = reportService.getReportXlsx(report.getReport());
 
-		reportService.writeXlsxReport(jp, response, "employeeReport");
-		return;
-	}
-
-	@PostConstruct
-	@Transactional
-	public void createTestEmployeeData(){
-		final String[] employeeNames = {"David Smith", "Mike Jones", "John Jackson", "Pierre Williams", "Bob Roberts"};
-
-		final List<Employee> employees = new ArrayList<>(employeeNames.length);
-
-		int employeeNumber = 100;
-		for(String name : employeeNames){
-			employees.add(Employee.builder()
-					.empNo(employeeNumber)
-					.commission((float)employeeNumber / 75f)
-					.salary(employeeNumber * 888)
-					.name(name)
-					.build());
-
-			employeeNumber++;
-		}
-
-		employeeRepository.save(employees);
+	    HttpHeaders header = new HttpHeaders();
+	    header.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+	    header.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=employeeReport.xlsx");
+	    header.setContentLength(data.length);
+		
+		return new HttpEntity<byte[]>(data, header);
 	}
 }

@@ -26,10 +26,10 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 public class EmployeeReport {
 
-	private final Collection<Employee> list = new ArrayList<>();
+	private final Collection<Employee> list;
 
 	public EmployeeReport(Collection<Employee> c) {
-		list.addAll(c);
+		list = new ArrayList<>(c);
 	}
 
 	public JasperPrint getReport() throws ColumnBuilderException, JRException, ClassNotFoundException {
@@ -42,54 +42,54 @@ public class EmployeeReport {
 		return jp;
 	}
 
-	private Style createHeaderStyle() {
-		StyleBuilder sb = new StyleBuilder(true);
-		sb.setFont(Font.VERDANA_MEDIUM_BOLD);
-		sb.setBorder(Border.THIN());
-		sb.setBorderBottom(Border.PEN_2_POINT());
-		sb.setBorderColor(Color.BLACK);
-		sb.setBackgroundColor(Color.ORANGE);
-		sb.setTextColor(Color.BLACK);
-		sb.setHorizontalAlign(HorizontalAlign.CENTER);
-		sb.setVerticalAlign(VerticalAlign.MIDDLE);
-		sb.setTransparency(Transparency.OPAQUE);
-		return sb.build();
+	private Style createHeaderStyle() {		
+		return new StyleBuilder(true)
+				.setFont(Font.VERDANA_MEDIUM_BOLD)
+				.setBorder(Border.THIN())
+				.setBorderBottom(Border.PEN_2_POINT())
+				.setBorderColor(Color.BLACK)
+				.setBackgroundColor(Color.ORANGE)
+				.setTextColor(Color.BLACK)
+				.setHorizontalAlign(HorizontalAlign.CENTER)
+				.setVerticalAlign(VerticalAlign.MIDDLE)
+				.setTransparency(Transparency.OPAQUE)
+				.build();
 	}
 
 	private Style createDetailTextStyle() {
-		StyleBuilder sb = new StyleBuilder(true);
-		sb.setFont(Font.VERDANA_MEDIUM);
-		sb.setBorder(Border.DOTTED());
-		sb.setBorderColor(Color.BLACK);
-		sb.setTextColor(Color.BLACK);
-		sb.setHorizontalAlign(HorizontalAlign.LEFT);
-		sb.setVerticalAlign(VerticalAlign.MIDDLE);
-		sb.setPaddingLeft(5);
-		return sb.build();
+		return new StyleBuilder(true)
+				.setFont(Font.VERDANA_MEDIUM)
+				.setBorder(Border.DOTTED())
+				.setBorderColor(Color.BLACK)
+				.setTextColor(Color.BLACK)
+				.setHorizontalAlign(HorizontalAlign.LEFT)
+				.setVerticalAlign(VerticalAlign.MIDDLE)
+				.setPaddingLeft(5)
+				.build();
 	}
 
 	private Style createDetailNumberStyle() {
-		StyleBuilder sb = new StyleBuilder(true);
-		sb.setFont(Font.VERDANA_MEDIUM);
-		sb.setBorder(Border.DOTTED());
-		sb.setBorderColor(Color.BLACK);
-		sb.setTextColor(Color.BLACK);
-		sb.setHorizontalAlign(HorizontalAlign.RIGHT);
-		sb.setVerticalAlign(VerticalAlign.MIDDLE);
-		sb.setPaddingRight(5);
-		sb.setPattern("#,##0.00");
-		return sb.build();
+		return new StyleBuilder(true)
+				.setFont(Font.VERDANA_MEDIUM)
+				.setBorder(Border.DOTTED())
+				.setBorderColor(Color.BLACK)
+				.setTextColor(Color.BLACK)
+				.setHorizontalAlign(HorizontalAlign.RIGHT)
+				.setVerticalAlign(VerticalAlign.MIDDLE)
+				.setPaddingRight(5)
+				.setPattern("#,##0.00")
+				.build();
 	}
 
 	private AbstractColumn createColumn(String property, Class<?> type, String title, int width, Style headerStyle, Style detailStyle)
 			throws ColumnBuilderException {
-		AbstractColumn columnState = ColumnBuilder.getNew()
+		return ColumnBuilder.getNew()
 				.setColumnProperty(property, type.getName())
 				.setTitle(title)
 				.setWidth(Integer.valueOf(width))
 				.setStyle(detailStyle)
-				.setHeaderStyle(headerStyle).build();
-		return columnState;
+				.setHeaderStyle(headerStyle)
+				.build();
 	}
 
 	private DynamicReport getReport(Style headerStyle, Style detailTextStyle, Style detailNumStyle)
@@ -105,11 +105,13 @@ public class EmployeeReport {
 
 		StyleBuilder titleStyle = new StyleBuilder(true);
 		titleStyle.setHorizontalAlign(HorizontalAlign.CENTER);
-		titleStyle.setFont(new Font(20, Font._FONT_GEORGIA, true));
+		titleStyle.setFont(new Font(20, null, true));
+		// you can also specify a font from the classpath, eg:
+		// titleStyle.setFont(new Font(20, "/fonts/someFont.ttf", true));
 
 		StyleBuilder subTitleStyle = new StyleBuilder(true);
 		subTitleStyle.setHorizontalAlign(HorizontalAlign.CENTER);
-		subTitleStyle.setFont(new Font(Font.MEDIUM, Font._FONT_GEORGIA, true));
+		subTitleStyle.setFont(new Font(Font.MEDIUM, null, true));
 
 		report.setTitle("Employee Report");
 		report.setTitleStyle(titleStyle.build());
