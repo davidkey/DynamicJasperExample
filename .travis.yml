@@ -1,7 +1,7 @@
 language: java
 jdk:
-  - openjdk8
+  - openjdk11
 install:
   - sudo sh -c "echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections"
-  - sudo aptitude -y install ttf-mscorefonts-installer > /dev/null
+  - sudo apt-get install --reinstall ttf-mscorefonts-installer
 script: mvn clean install
