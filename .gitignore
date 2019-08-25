@@ -24,3 +24,4 @@ mvnw
 mvnw.*
 mvn/
 .mvn/
+.factorypath
