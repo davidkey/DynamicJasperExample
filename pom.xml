@@ -72,7 +72,6 @@
 			<artifactId>mockito-core</artifactId>
 		</dependency>
 
-
 		<!-- http://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
@@ -87,7 +86,6 @@
 			<version>${jasperreports.version}</version>
 		</dependency>
 
-
 		<!-- http://mvnrepository.com/artifact/ar.com.fdvs/DynamicJasper -->
 		<dependency>
 			<groupId>ar.com.fdvs</groupId>
@@ -95,6 +93,12 @@
 			<version>${dynamicjasper.version}</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/ar.com.fdvs/DynamicJasper-core-fonts -->
+		<dependency>
+			<groupId>ar.com.fdvs</groupId>
+			<artifactId>DynamicJasper-core-fonts</artifactId>
+			<version>2.0</version>
+		</dependency>
 
 	</dependencies>
 
