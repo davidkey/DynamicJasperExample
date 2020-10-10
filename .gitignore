@@ -20,8 +20,5 @@ hs_err_pid*
 target/
 .svn*
 */svn/**
-mvnw
-mvnw.*
 mvn/
-.mvn/
 .factorypath

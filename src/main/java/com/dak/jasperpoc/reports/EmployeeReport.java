@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.dak.jasperpoc.exception.ReportException;
 import com.dak.jasperpoc.model.Employee;
 
 import ar.com.fdvs.dj.core.DynamicJasperHelper;
@@ -24,21 +25,36 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
-public class EmployeeReport {
+/**
+ * Pojo used to hold report state and generate JasperReport object.
+ * @author davidkey
+ */
+@SuppressWarnings("deprecation")
+/*
+ * SuppressWarnings for HorizontalAlign, VertialAlign constants
+ * as they have been deprecated by DynamicJasper with no alternative or replacement mentioned.
+ */
+public class EmployeeReport implements Report {
 
-	private final Collection<Employee> list;
+	private final Collection<Employee> employees;
 
-	public EmployeeReport(Collection<Employee> c) {
-		list = new ArrayList<>(c);
+	public EmployeeReport(final Collection<Employee> employees) {
+		this.employees = new ArrayList<>(employees);
 	}
 
-	public JasperPrint getReport() throws ColumnBuilderException, JRException, ClassNotFoundException {
-		Style headerStyle = createHeaderStyle();
-		Style detailTextStyle = createDetailTextStyle();
-		Style detailNumberStyle = createDetailNumberStyle();
-		DynamicReport dynaReport = getReport(headerStyle, detailTextStyle, detailNumberStyle);
-		JasperPrint jp = DynamicJasperHelper.generateJasperPrint(dynaReport, new ClassicLayoutManager(),
-				new JRBeanCollectionDataSource(list));
+	public JasperPrint getReport() throws ReportException {
+		final JasperPrint jp;
+		try {
+			Style headerStyle = createHeaderStyle();
+			Style detailTextStyle = createDetailTextStyle();
+			Style detailNumberStyle = createDetailNumberStyle();
+			DynamicReport dynaReport = getReport(headerStyle, detailTextStyle, detailNumberStyle);
+			jp = DynamicJasperHelper.generateJasperPrint(dynaReport, new ClassicLayoutManager(),
+					new JRBeanCollectionDataSource(employees));
+		} catch (JRException | ColumnBuilderException | ClassNotFoundException e) {
+			throw new ReportException(e);
+		}
+
 		return jp;
 	}
 

@@ -1,7 +1,5 @@
 package com.dak.jasperpoc.controller;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dak.jasperpoc.exception.ReportException;
 import com.dak.jasperpoc.reports.EmployeeReport;
 import com.dak.jasperpoc.repository.EmployeeRepository;
 import com.dak.jasperpoc.service.ReportService;
-
-import net.sf.jasperreports.engine.JRException;
 
 @Controller
 @RequestMapping("/")
@@ -39,7 +36,7 @@ public class ReportController {
 
 	@GetMapping(value = "/employeeReport.pdf", produces = MediaType.APPLICATION_PDF_VALUE)
 	@ResponseBody
-	public HttpEntity<byte[]> getEmployeeReportPdf(final HttpServletResponse response) throws JRException, IOException, ClassNotFoundException {
+	public HttpEntity<byte[]> getEmployeeReportPdf(final HttpServletResponse response) throws ReportException {
 		final EmployeeReport report = new EmployeeReport(employeeRepository.findAll());
 		final byte[] data = reportService.getReportPdf(report.getReport());
 
@@ -54,7 +51,7 @@ public class ReportController {
 
 	@GetMapping(value = "/employeeReport.xlsx", produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	@ResponseBody
-	public HttpEntity<byte[]> getEmployeeReportXlsx(final HttpServletResponse response) throws JRException, IOException, ClassNotFoundException {
+	public HttpEntity<byte[]> getEmployeeReportXlsx(final HttpServletResponse response) throws ReportException {
 		final EmployeeReport report = new EmployeeReport(employeeRepository.findAll());
 		final byte[] data = reportService.getReportXlsx(report.getReport());
 
