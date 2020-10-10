@@ -6,7 +6,7 @@ Short example of a dynamic JasperReport rendered as pdf / xlsx by a Spring Boot 
 ## How to run
 ```bash
 git clone https://github.com/davidkey/DynamicJasperExample.git
-mvn spring-boot:run
+mvnw spring-boot:run
 ```
 Once the application has started, you can go to one of the following urls to see the reports:
 * http://localhost:8080/employeeReport.pdf
