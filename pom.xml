@@ -76,7 +76,7 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>${jasperreports.version}</version>
+			<version>6.13.0</version>
 		</dependency>
 
 		<!-- http://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-fonts -->
