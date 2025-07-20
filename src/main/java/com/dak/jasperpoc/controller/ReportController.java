@@ -1,8 +1,5 @@
 package com.dak.jasperpoc.controller;
 
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,6 +13,8 @@ import com.dak.jasperpoc.reports.EmployeeReport;
 import com.dak.jasperpoc.repository.EmployeeRepository;
 import com.dak.jasperpoc.service.ReportService;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @Controller
 @RequestMapping("/")
 public class ReportController {
@@ -23,7 +22,6 @@ public class ReportController {
 	private final EmployeeRepository employeeRepository;
 	private final ReportService reportService;
 
-	@Autowired
 	public ReportController(final EmployeeRepository employeeRepository, final ReportService reportService){
 		this.employeeRepository = employeeRepository;
 		this.reportService = reportService;
