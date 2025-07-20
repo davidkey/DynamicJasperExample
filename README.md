@@ -1,7 +1,7 @@
 # DynamicJasperExample
 [![Build Status](https://travis-ci.org/davidkey/DynamicJasperExample.svg?branch=master)](https://travis-ci.org/davidkey/DynamicJasperExample)
 
-Short example of a dynamic JasperReport rendered as pdf / xlsx by a Spring Boot application. Uses [JasperReports Library 7.0.3](https://community.jaspersoft.com/project/jasperreports-library) and [DynamicJasper 5.3.9](http://dynamicjasper.com/) to generate reports.
+Short example of a dynamic JasperReport rendered as pdf / xlsx by a Spring Boot application. Uses [JasperReports Library 7.0.3](https://community.jaspersoft.com/project/jasperreports-library) and [DynamicJasper 5.3.9](https://intive-fdv.github.io/DynamicJasper/) to generate reports.
 
 ## How to run
 ```bash
