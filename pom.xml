@@ -22,7 +22,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>17</java.version>
-		<jasperreports.version>7.0.4</jasperreports.version>
+		<jasperreports.version>7.0.7</jasperreports.version>
 		<dynamicjasper.version>5.3.9</dynamicjasper.version>
 	</properties>
 
